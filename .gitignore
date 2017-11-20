@@ -24,3 +24,9 @@ src/main/resources/twitter4j.properties
 target/classes/twitter4j.properties
 src/main/resources/twitter4j.properties.bak
 target/classes/twitter4j.properties.bak
+target/heroku/app/.heroku-deploy
+target/heroku/app/Procfile
+target/project-nutshell-0.0.1-SNAPSHOT/WEB-INF/classes/twitter4j.properties.bak
+target/heroku/app/pom.xml
+target/heroku/app/system.properties
+target/heroku/build.tgz

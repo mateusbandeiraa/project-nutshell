@@ -1,0 +1,14 @@
+body{
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+.card{
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+#backButton{
+	cursor: pointer;
+}
+#infoText{
+	text-align: left;
+}
