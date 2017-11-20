@@ -14,6 +14,7 @@ import entity.TweetTreeMap;
 public class LogicController {
 	public final static String NOT_WORDS_REGEX = "[^a-zA-Z \\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02af\\u1d00-\\u1d25\\u1d62-\\u1d65\\u1d6b-\\u1d77\\u1d79-\\u1d9a\\u1e00-\\u1eff\\u2090-\\u2094\\u2184-\\u2184\\u2488-\\u2490\\u271d-\\u271d\\u2c60-\\u2c7c\\u2c7e-\\u2c7f\\ua722-\\ua76f\\ua771-\\ua787\\ua78b-\\ua78c\\ua7fb-\\ua7ff\\ufb00-\\ufb06]";
 	public final static String URLS_REGEX = "[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
+
 	public static void main(String[] args) {
 
 		// TWEET RETRIEVER
@@ -46,7 +47,7 @@ public class LogicController {
 		// System.out.println("#2 sortedWordsList:\n" + sortedWordsList);
 
 		String[] assembly = tweetAssembly(sortedWordsList);
-		
+
 		return assembly;
 	}
 
@@ -118,8 +119,12 @@ public class LogicController {
 		// SELECTS THE FIRST TWEET RANDOMLY
 		randomIndex = new Random().nextInt(commonTweets.size());
 		String firstTweet = commonTweets.get(randomIndex);
+		// PREVENTS THE COMMON WORD TO BE THE FIST IN THE TWEET
+		while (firstTweet.indexOf(commonWord) == 0) {
+			firstTweet = commonTweets.get(randomIndex);
+		}
 
-		commonTweets.remove(firstTweet);
+		commonTweets.remove(randomIndex);
 
 		String firstHalf = firstTweet.substring(0, firstTweet.toLowerCase().indexOf(commonWord));
 
@@ -127,8 +132,18 @@ public class LogicController {
 
 		randomIndex = new Random().nextInt(commonTweets.size());
 		String secondTweet = commonTweets.get(randomIndex);
+		// PREVENTS THE COMMON WORD TO BE THE LAST IN THE TWEET
+		while (secondTweet.indexOf(commonWord) == (secondTweet.length() - commonWord.length())) {
+			firstTweet = commonTweets.get(randomIndex);
+		}
 
 		String secondHalf = secondTweet.substring(secondTweet.toLowerCase().indexOf(commonWord), secondTweet.length());
+
+		 System.out.println("First tweet: " + firstTweet);
+		 System.out.println("Common word: " + commonWord);
+		 System.out.println("First Half: " + firstHalf);
+		 System.out.println("Second tweet: " + secondTweet);
+		 System.out.println("Second half: " + secondHalf);
 
 		return new String[] { firstHalf, secondHalf };
 	}
