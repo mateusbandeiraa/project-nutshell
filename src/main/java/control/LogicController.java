@@ -28,13 +28,17 @@ public class LogicController {
 
 		// System.out.println("#2 sortedWordsList:\n" + sortedWordsList);
 
-		String[] assembly = tweetAssembly(sortedWordsList);
-
-		System.out.println(assembly[0] + assembly[1]);
+		String[] assembly;
+		try {
+			assembly = tweetAssembly(sortedWordsList);
+			System.out.println(assembly[0] + assembly[1]);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
 	}
 
-	public static String[] tweetInANutshell(String username) {
+	public static String[] tweetInANutshell(String username) throws Exception {
 		// TWEET RETRIEVER
 		List<String> tweets = retrieveTweets(username);
 
@@ -107,23 +111,29 @@ public class LogicController {
 		return sortedWordsList;
 	}
 
-	private static String[] tweetAssembly(List<Entry<String, List<String>>> wordsList) {
+	private static String[] tweetAssembly(List<Entry<String, List<String>>> wordsList) throws Exception {
 
-		// SELECTS THE FIRST WORD AND THE TWEETS THAT CONTAIN IT IE.: "FOO"
-		int randomIndex = new Random().nextInt(wordsList.size());
-		Entry<String, List<String>> firstSelectedEntry = wordsList.get(randomIndex);
+		// SELECTS THE FIRST WORD AND THE TWEETS THAT CONTAIN IT
+		int randomIndex = 0;
+		String commonWord = "";
+		List<String> commonTweets = null;
 
-		String commonWord = firstSelectedEntry.getKey();
-		List<String> commonTweets = firstSelectedEntry.getValue();
-
-		// SELECTS THE FIRST TWEET RANDOMLY
-		randomIndex = new Random().nextInt(commonTweets.size());
-		String firstTweet = commonTweets.get(randomIndex);
-		// PREVENTS THE COMMON WORD TO BE THE FIST IN THE TWEET
-		while (firstTweet.indexOf(commonWord) == 0) {
+		String firstTweet = "";
+		int loopcounter = 0;
+		while (firstTweet.indexOf(commonWord) < 7) {
+			if(loopcounter > 10)
+				throw new Exception();
+			randomIndex = new Random().nextInt(wordsList.size());
+			Entry<String, List<String>> firstSelectedEntry = wordsList.get(randomIndex);
+			commonWord = firstSelectedEntry.getKey();
+			commonTweets = firstSelectedEntry.getValue();
+			// SELECTS THE FIRST TWEET RANDOMLY
+			randomIndex = new Random().nextInt(commonTweets.size());
 			firstTweet = commonTweets.get(randomIndex);
-		}
+			loopcounter++;
 
+		}
+		
 		commonTweets.remove(randomIndex);
 
 		String firstHalf = firstTweet.substring(0, firstTweet.toLowerCase().indexOf(commonWord));
@@ -139,11 +149,11 @@ public class LogicController {
 
 		String secondHalf = secondTweet.substring(secondTweet.toLowerCase().indexOf(commonWord), secondTweet.length());
 
-		 System.out.println("First tweet: " + firstTweet);
-		 System.out.println("Common word: " + commonWord);
-		 System.out.println("First Half: " + firstHalf);
-		 System.out.println("Second tweet: " + secondTweet);
-		 System.out.println("Second half: " + secondHalf);
+		System.out.println("First tweet: " + firstTweet);
+		System.out.println("Common word: " + commonWord);
+		System.out.println("First Half: " + firstHalf);
+		System.out.println("Second tweet: " + secondTweet);
+		System.out.println("Second half: " + secondHalf);
 
 		return new String[] { firstHalf, secondHalf };
 	}

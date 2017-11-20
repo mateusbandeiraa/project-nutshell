@@ -26,7 +26,7 @@ $(document).ready(function(){
 		    console.log("Servlet response: " + response);
 		    
 		   if(response[0] !== "/error/"){
-			var tweet = response[0] + response[1];
+			var tweet = "<a class=\"firstTweet\">" + response[0] + "</a><a class=\"secondTweet\">" + response[1] + "</a>";
 			var urlSafeTweet = "@"+twUsername+"'s twitter in a nutshell is:\n\"" + tweet + "\"\n\nSee yours at";
 		    $("#tweetText").html(tweet);
 		    $("#quoteUsername").html("@" + twUsername);
